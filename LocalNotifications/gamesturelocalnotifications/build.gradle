@@ -20,8 +20,9 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     compile 'com.android.support:appcompat-v7:26.+'
+    provided files('libs/classes.jar')
 }
 
 task deleteOld(type: org.gradle.api.tasks.Delete){
