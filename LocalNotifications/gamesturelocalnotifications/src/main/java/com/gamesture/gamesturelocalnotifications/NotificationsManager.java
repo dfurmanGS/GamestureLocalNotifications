@@ -19,6 +19,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Build;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.TaskStackBuilder;
 import android.util.Log;
 
 import com.unity3d.player.UnityPlayer;
@@ -36,6 +38,11 @@ public class NotificationsManager extends BroadcastReceiver
     {
         try
         {
+            Intent notificationIntent = currentActivity.getPackageManager().getLaunchIntentForPackage(currentActivity.getPackageName());
+            TaskStackBuilder stackBuilder = TaskStackBuilder.create(currentActivity);
+            stackBuilder.addNextIntent(notificationIntent);
+            PendingIntent notificationPendingIntent = PendingIntent.getActivity(currentActivity, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
             Resources res = currentActivity.getResources();
 
             long currentTimestamp = System.currentTimeMillis();
@@ -51,7 +58,8 @@ public class NotificationsManager extends BroadcastReceiver
             Log(largeIconId + " identifier of large icon");
             Log(res.getResourceEntryName(largeIconId) + " resource entry name of large icon");
 
-            Notification.Builder builder = new Notification.Builder(currentActivity)
+            NotificationCompat.Builder builder = new NotificationCompat.Builder(currentActivity)
+                                            .setContentIntent(notificationPendingIntent)
                                             .setContentTitle(title)
                                             .setContentText(message)
                                             .setWhen(currentTimestamp)
