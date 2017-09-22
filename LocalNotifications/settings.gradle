@@ -1,1 +1,1 @@
-include ':app', ':gamesturelocalnotifications'
+include ':gamesturelocalnotifications'
